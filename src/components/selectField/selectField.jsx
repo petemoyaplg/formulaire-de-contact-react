@@ -2,8 +2,8 @@ const SelectField = ( props ) => {
     return (
         <>
             <label htmlFor={props.id}>{props.label}</label>
-            <select id={props.id} name={props.name}>
-                <option value="" disabled hidden selected>--Selectionner un groupe--</option>
+            <select id={props.id} name={props.name} onChange={props.handleChange} value={props.groupe}>
+                <option value="" hidden>--Selectionner un groupe--</option>
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="C">C</option>

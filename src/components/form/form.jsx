@@ -1,46 +1,50 @@
-import React from "react";
+import React, { Component } from "react";
 import Button from "../button/button";
 import InputField from "../input/inputField";
 import SelectField from "../selectField/selectField";
 import TextAreaField from "../textArea/textAreaField";
-import Avatar from "../../img/icons8-checked-user-male-80.png";
+// import Avatar from "../../img/icons8-checked-user-male-80.png";
 
 
-class Form extends React.Component {
+class Form extends Component {
     constructor( props ) {
         super( props );
         this.state = {};
-        this.contact = {};
-        this.listContact = props.listContact;
-        console.log(props.state);
-        // this.getData = props.data;
-        // this.setDataContact = this.setDataContact.bind( this);
+        this.contact = props.contact;
     }
-    afficher = (event) => {
-        event.preventDefault();
-        // this.listContact.push( this.contact );
-        this.listContact.push( this.contact );
-        console.log( this.props.state.listContact )
-    }
-    setDataContact = ( event ) => {
-        this.contact[ event.target.name ] = event.target.value;
-        // this.setState(this.state.contact[ event.target.name ] = event.target.value);
-        // console.log( this.contact )
+    changeImage = ( event ) => {
+        const file = this.files[ 0 ];
+        alert( 'You' )
+        if ( file ) {
+            const reader = new FileReader();
+            reader.addEventListener( 'load', function () {
+                // this.contact.photo = this.result;
+                document.querySelector( '.div-photo img' ).setAttribute( 'src', this.result );
+                // th.setAttribute( 'src', this.result );
+
+                // itemPhoto = URL.createObjectURL( file );
+            } );
+            reader.readAsDataURL( file );
+        }
+        else {
+            // photoChoisie.setAttribute( 'src', ' ' );
+            // photoChoisie.setAttribute( 'alt', 'Accune Image Sélectionné' );
+        }
     }
 
     render () {
         return (
-            <form onSubmit={this.afficher} onInput={this.setDataContact}>
-                <InputField type="text" id="prenom" name="prenom" label="Prenom" />
-                <InputField type="text" id="nom" name="nom" label="nom" />
-                <SelectField id="groupe" name="group" label="Groupe" />
-                <TextAreaField htmlFor="biographie" label="Biographie" id="biographie" name="biographie" cols="30" rows="3" />
+            <form onSubmit={this.props.onSubmit}>
+                <InputField type="text" id="prenom" name="prenom" label="Prenom" handleChange={this.props.handleChange} value={this.props.contact.prenom} />
+                <InputField type="text" id="nom" name="nom" label="nom" handleChange={this.props.handleChange} value={this.props.contact.nom} />
+                <SelectField id="groupe" name="groupe" label="Groupe" handleChange={this.props.handleChange} value={this.props.contact.groupe} />
+                <TextAreaField htmlFor="biographie" label="Biographie" id="biographie" name="biographie" cols="30" rows="3" handleChange={this.props.handleChange} value={this.props.contact.biographie} />
                 <div className="div-select-img">
                     <div>
-                        <input type="file" name="choisir un fichier" id="choix-photo" accept=".jpg,.png" />
+                        <input type="file" name="hoix-photo" id="choix-photo" accept=".jpg,.png" handleChange={this.changeImage} />
                     </div>
                     <div className="div-photo">
-                        <img src={Avatar} alt="" width="100" height="100" />
+                        <img src={this.props.contact.photo} width="100" height="100" alt="avatar" name="photo" handleChange={this.props.handleChange} />
                     </div>
                 </div>
                 <div className="div-btn">
